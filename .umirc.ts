@@ -12,6 +12,7 @@ export default defineConfig({
     utils: resolve(__dirname, './src/utils'),
     common: resolve(__dirname, './src/common'),
     components: resolve(__dirname, './src/components'),
+    api: resolve(__dirname, './src/servicer'),
   },
   proxy: {
     '/api': {

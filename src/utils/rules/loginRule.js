@@ -29,4 +29,21 @@ export const loginRule = {
     { max: 6, message: '账号名长度必须是6位' },
     { min: 6, message: '账号名长度必须是6位' },
   ],
+  confirmPasswordRule: (form) => {
+    return [
+      {
+        validator: (rule, val) => {
+          console.log(val, form.getFieldValue('newPassword'));
+          switch (true) {
+            case !val:
+              return Promise.reject('密码不能为空');
+            case val !== form.getFieldValue('newPassword'):
+              return Promise.reject('两次密码不一致');
+            default:
+              return Promise.resolve(true);
+          }
+        },
+      },
+    ];
+  },
 };

@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import IconMap from 'components/IconMap';
 import { loginRule } from 'utils/rules';
+import $http from 'api';
 
 const SmCodeLogin = ({ FormItem, Input, form }) => {
-  const [disabled, setDisabled] = useState(true);
-  const [currentState, setCurrentState] = useState(true);
-  let [currentTime, setCurrentTime] = useState(5);
+  const [disabled, setDisabled] = useState(true); //发送按钮是否禁用
+  const [currentState, setCurrentState] = useState(true); //false表示已发送在倒计时
+  const [codeLoading, setCodeLoading] = useState(false); //发送验证码loading
+  let [currentTime, setCurrentTime] = useState(5); //倒计时
 
   //-发送验证码
-  const sendSmCode = () => {
+  const sendSmCode = async () => {
+    setCodeLoading(true);
     setDisabled(true);
+    const mobile = await form.validateFields(['mobile']);
+    console.log(mobile);
+    const { code, msg } = await $http.getCode(mobile);
+    if (code !== 0) {
+      return;
+    }
+    setCodeLoading(false);
+    message.success(msg);
     setCurrentState(false);
     runTime();
   };
@@ -53,7 +64,11 @@ const SmCodeLogin = ({ FormItem, Input, form }) => {
           placeholder="请输入验证码"
           prefix={IconMap.codeIcon}
           addonAfter={
-            <Button onClick={sendSmCode} disabled={disabled}>
+            <Button
+              onClick={sendSmCode}
+              loading={codeLoading}
+              disabled={disabled}
+            >
               {currentState ? '发送验证码' : `${currentTime}秒之后重新发送`}
             </Button>
           }
