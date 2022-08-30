@@ -1,5 +1,6 @@
 import $http from 'api';
 import { message } from 'antd';
+import { history } from 'umi';
 
 export default {
   namespace: 'user',
@@ -23,6 +24,8 @@ export default {
         message.error(msg);
         return;
       }
+      const { data: routeList } = yield call($http.getRouteList);
+      sessionStorage.setItem('routeList', JSON.stringify(routeList));
       sessionStorage.setItem('user', JSON.stringify(data));
       yield put({
         type: 'changeUserInfo',
@@ -30,6 +33,8 @@ export default {
           userInfo: data,
         },
       });
+
+      history.replace(routeList[0].route);
     },
   },
 };
