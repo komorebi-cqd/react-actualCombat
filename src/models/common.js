@@ -16,21 +16,33 @@ export default {
           location: { pathname },
         },
       } = payload;
-      if (pathname !== '/user/login' || pathname !== '/user/forgotPassword') {
+      if (pathname !== '/users/login' && pathname !== '/users/forgotPassword') {
         if (
-          !sessionStorage.getItem('user') ||
-          !sessionStorage.getItem('routeList') ||
-          !sessionStorage.getItem('token')
+          !localStorage.getItem('user') ||
+          !localStorage.getItem('routeList') ||
+          !localStorage.getItem('token')
         ) {
           history.replace('/users/login');
         } else {
           const res = yield call($http.queryLoginStatus);
           if (res.code !== 0) return;
           const { data: routeList } = yield call($http.getRouteList);
-          sessionStorage.setItem('routeList', JSON.stringify(routeList));
+          localStorage.setItem('routeList', JSON.stringify(routeList));
         }
       } else {
-        sessionStorage.clear();
+        console.log(6666);
+        if (localStorage.getItem('user') && localStorage.getItem('token')) {
+          const res = yield call($http.queryLoginStatus);
+          if (res.code !== 0) {
+            localStorage.clear();
+            return;
+          }
+          const { data: routeList } = yield call($http.getRouteList);
+          localStorage.setItem('routeList', JSON.stringify(routeList));
+          history.replace(routeList[0].route);
+        } else {
+          localStorage.clear();
+        }
       }
     },
   },

@@ -17,7 +17,7 @@ const isOkState = async (res) => {
   if (cloneRes.code !== 0) {
     message.error(`${cloneRes.msg}`);
     history.replace('/users/login');
-    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
   }
   return res;
 };
@@ -38,7 +38,7 @@ class Http {
     const defaultOptions = {
       mode: 'cors', //- 支持跨域处理，以cors的形式进行跨域
       headers: {
-        Authorization: sessionStorage.getItem('token') || null,
+        Authorization: localStorage.getItem('token') || null,
       },
     };
 
@@ -53,7 +53,7 @@ class Http {
       .then(isOkState)
       .then((res) => {
         const token = res.headers.get('Authorization');
-        token && sessionStorage.setItem('token', token);
+        token && localStorage.setItem('token', token);
         return res.json();
       })
       .catch(handleError);

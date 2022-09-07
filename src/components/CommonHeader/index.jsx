@@ -8,7 +8,7 @@ const CommonHeader = ({ Header, collapse, changeCollapse }) => {
   const { userInfo } = useSelector((state) => state.user);
   const loginOut = (e) => {
     if (e.key === 'quit') {
-      sessionStorage.clear();
+      localStorage.clear();
       window.location.href = '/user/login';
     }
   };

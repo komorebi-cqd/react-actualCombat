@@ -5,8 +5,8 @@ import { history } from 'umi';
 export default {
   namespace: 'user',
   state: {
-    userInfo: sessionStorage.getItem('user')
-      ? JSON.parse(sessionStorage.getItem('user'))
+    userInfo: localStorage.getItem('user')
+      ? JSON.parse(localStorage.getItem('user'))
       : null,
   },
   reducers: {
@@ -25,8 +25,8 @@ export default {
         return;
       }
       const { data: routeList } = yield call($http.getRouteList);
-      sessionStorage.setItem('routeList', JSON.stringify(routeList));
-      sessionStorage.setItem('user', JSON.stringify(data));
+      localStorage.setItem('routeList', JSON.stringify(routeList));
+      localStorage.setItem('user', JSON.stringify(data));
       yield put({
         type: 'changeUserInfo',
         payload: {

@@ -20,6 +20,3 @@ export const getRouteList = (params) => $http.get('/getRouteList', params);
 
 //检测手机号码或账户名是否有效
 export const checkIsExists = (params) => $http.post('/checkIsExists', params);
-
-//员工分析
-export const analyzeStaff = () => $http.get('/analyzeStaff');

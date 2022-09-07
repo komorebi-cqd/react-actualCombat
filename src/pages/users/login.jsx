@@ -14,7 +14,6 @@ const login = ({ history }) => {
   const [type, setType] = useState(0);
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loading);
-  console.log(loading);
   const ComponentSelector = (props) =>
     !type ? <AccountLogin {...props} /> : <SmCodeLogin {...props} />;
 

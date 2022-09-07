@@ -5,7 +5,7 @@ import IconMap from '../IconMap';
 
 const SiderBar = ({ Sider, Menu, collapse }) => {
   const pathname = history.location.pathname;
-  const routeList = JSON.parse(sessionStorage.getItem('routeList'));
+  const routeList = JSON.parse(localStorage.getItem('routeList'));
   const newRouteList = routeList?.map((item) => {
     item.label = item.zhName;
     item.icon = IconMap[item.icon];
